@@ -1,10 +1,11 @@
-const configuration = () => ({
-	nodeEnv: process.env.NODE_ENV ?? 'development',
-	port: parseInt(process.env.PORT ?? '3333', 10),
-	databaseUrl: process.env.DATABASE_URL ?? '',
-	jwtSecret: process.env.JWT_SECRET ?? '',
-});
+import { z } from 'zod'
 
-export type EnvConfig = ReturnType<typeof configuration>;
+export const BaseEnvSchema = z.object({
+    NODE_ENV: z.enum(['development', 'production', 'test', 'staging']),
+    PORT: z.coerce.number(),
+    SERVICE_NAME: z.string(),
+    DATABASE_URL: z.string().url(),
 
-export default configuration;
+    AUTH0_ISSUER: z.string(),
+    AUTH0_AUDIENCE: z.string(),
+})

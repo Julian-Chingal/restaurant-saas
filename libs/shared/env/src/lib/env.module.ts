@@ -1,16 +1,13 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import configuration from './env.schema';
-import { validationSchema } from './env.validate';
+import { Module, OnModuleInit  } from '@nestjs/common';
+import { BaseEnvSchema } from './env.schema';
 
-@Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-      load: [configuration],
-      validationSchema,
-    }),
-  ],
-  exports: [ConfigModule],
-})
-export class EnvModule {}
+@Module()
+export class EnvModule implements OnModuleInit {
+  OnModuleInit() {
+    const result = BaseEnvSchema.safeParse(process.env);
+    if (!result.success) {
+      console.error('Environment validation error:', result.error.format()); //! Testing
+      process.exit(1);
+    }
+  }
+}
