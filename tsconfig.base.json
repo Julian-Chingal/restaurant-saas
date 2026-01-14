@@ -16,7 +16,10 @@
     "baseUrl": ".",
     "paths": {
       "@restaurant-saas/env": ["libs/shared/env/src/index.ts"],
-      "@restaurant-saas/auth": ["libs/shared/auth/src/index.ts"]
+      "@restaurant-saas/auth": ["libs/shared/auth/src/index.ts"],
+      "@restaurant-saas/tenant-context": [
+        "libs/shared/tenant-context/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]
