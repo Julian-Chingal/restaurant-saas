@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@restaurant-saas/env": ["libs/shared/env/src/index.ts"]
+      "@restaurant-saas/env": ["libs/shared/env/src/index.ts"],
+      "@restaurant-saas/auth": ["libs/shared/auth/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
