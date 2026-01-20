@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@restaurant-saas/auth": ["libs/shared/auth/src/index.ts"]
+      "@restaurant-saas/auth": ["libs/shared/auth/src/index.ts"],
+      "@restaurant-saas/prisma": ["libs/shared/prisma/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
