@@ -1,0 +1,111 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model TenantStatus {
+  id          String   @id
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  tenants Tenant[]
+
+  // Map
+  @@map("tenant_statuses")
+}
+
+model SubscriptionStatus {
+  id          String   @id
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  subscriptions Subscription[]
+
+  // Map
+  @@map("subscription_statuses")
+}
+
+model Plan {
+  id          String   @id @default(uuid())
+  name        String
+  code        String   @unique
+  description String?
+  price       Decimal  @db.Decimal(10, 2)
+  currency    String   @default("COP")
+  features    Json
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  tenants Tenant[]
+
+  // Map 
+  @@map("plans")
+}
+
+model Tenant {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique // subdomain or unique identifier
+  statusId  String
+  planId    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  status        TenantStatus   @relation(fields: [statusId], references: [id])
+  plan          Plan?          @relation(fields: [planId], references: [id])
+  subscriptions Subscription[]
+  users         User[]
+
+  // Map
+  @@map("tenants")
+}
+
+model Subscription {
+  id        String    @id @default(uuid())
+  tenantId  String
+  statusId  String
+  startDate DateTime
+  endDate   DateTime?
+  isValid   Boolean   @default(true)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Relations
+  tenant Tenant             @relation(fields: [tenantId], references: [id])
+  status SubscriptionStatus @relation(fields: [statusId], references: [id])
+
+  // Map
+  @@map("subscriptions")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  auth0Id   String   @unique
+  tenantId  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  tenant Tenant? @relation(fields: [tenantId], references: [id])
+
+  // Map
+  @@map("users")
+}
