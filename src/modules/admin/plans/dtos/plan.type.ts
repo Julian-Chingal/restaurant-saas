@@ -11,8 +11,8 @@ export class PlanType {
     @Field()
     code: string;
 
-    @Field({ nullable: true })
-    description: string;
+    @Field(() => String, { nullable: true })
+    description: string | null;
 
     @Field()
     price: number;
@@ -27,8 +27,8 @@ export class PlanType {
     isActive: boolean;
 
     @Field()
-    created_at: Date;
+    createdAt: Date;
 
     @Field()
-    updated_at: Date;
+    updatedAt: Date;
 }
