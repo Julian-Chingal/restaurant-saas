@@ -1,17 +1,12 @@
 import { Module } from '@nestjs/common';
 import { DatabaseService } from './database.service';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
-import { PostgreSqlDriver } from '@mikro-orm/postgresql'
+import config from '../../../mikro-orm.config' 
 
 @Module({
-  imports: [MikroOrmModule.forRoot({
-    driver: PostgreSqlDriver,
-    entities: ['./dist/**/*.entity.js'],
-    entitiesTs: ['./src/**/*.entity.ts'],
-    clientUrl: process.env.DATABASE_URL,
-    debug: process.env.NODE_ENV !== 'production',
-  })],
+  imports: [MikroOrmModule.forRoot(config)],
   providers: [DatabaseService],
   exports: [DatabaseService],
 })
 export class DatabaseModule {}
+ 
