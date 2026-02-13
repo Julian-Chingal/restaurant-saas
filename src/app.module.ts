@@ -2,17 +2,16 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { AppConfigModule } from './core/config/config.module';
 import { HealthModule } from './modules/health/health.module';
-import { PlansModule } from './modules/admin/plans/plans.module';
-import { PrismaModule } from './core/prisma/prisma.module';
+// import { PlansModule } from './modules/admin/plans/plans.module';
+import { CoreModule } from './core/core.module';
+
 
 @Module({
   imports: [
     // Config Module
-    AppConfigModule,
-    PrismaModule,
-
+    CoreModule,
+    
     // GraphQL Module
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
@@ -23,8 +22,7 @@ import { PrismaModule } from './core/prisma/prisma.module';
 
     // Modules
     HealthModule,
-
-    PlansModule,
+    // PlansModule,
   ],
   controllers: [],
   providers: [],
